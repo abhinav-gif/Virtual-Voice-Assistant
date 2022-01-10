@@ -1,0 +1,122 @@
+WindowManager:
+    MainWindow:
+    ListeningWindow:
+    OutputWindow:
+
+<MainWindow>:
+    name:"main"
+    GridLayout:
+        cols:1
+        size_hint:(0.6, 0.8)
+        pos_hint:{"center_x": 0.5, "center_y": 0.5}
+        spacing:50
+
+        Image:
+            source:"logo.png"
+        
+        Label:
+            text:"Say Hello jarvis to wake me up!"
+            font_size:20
+            color:"#00FFCE"
+        
+        Button:
+            text:"START"
+            bold:True
+            font_size:18
+            background_color:"#00FFCE"
+            size_hint:(1, 0.8)
+            on_press:app.wishMe()
+            on_release:
+                app.root.current="listening"
+                root.manager.transition.direction="left"
+
+        Label:
+            text:"OR"
+            font_size:22
+            color:"#00FFCE"
+            size_hint:(1,0.2)
+
+        Button:
+            text:"Type Input"
+            bold:True
+            font_size:18
+            background_color:"#00FFCE"
+            size_hint:(1, 0.6)
+            on_press:app.wishMe()
+            on_release:
+                app.root.current="output"
+                root.manager.transition.direction="left"        
+            
+
+<ListeningWindow>:
+    name:"listening"
+    on_enter:app.start()  
+    GridLayout:
+        cols:1
+        pos_hint:{"center_x": 0.5, "center_y": 0.6}
+        
+        Image:
+            source: "mic.zip"
+        
+    GridLayout:
+        cols:2
+        size_hint:(0.5,0.1)
+        spacing:150
+        pos_hint:{"center_x": 0.5,"center_y": 0.1}
+
+        Button:
+            text:"Go Back"
+            bold:True
+            background_color:"#00FFCE"
+            on_release:
+                app.root.current="main"
+                root.manager.transition.direction="right"
+        
+        Button:
+            text:"Abort"
+            bold:True
+            background_color:"#00FFCE"        
+            on_press:root.exit()  
+
+<OutputWindow>:
+    name:"output"
+    GridLayout:
+        cols:1
+        pos_hint:{'center_x': 0.52,'center_y':0.45}
+        Label:
+            id:output_label
+            text:"Output"
+            font_size:22
+            color:"#00FFCE"
+            text_size: self.width, None
+            size_hint: 1, None
+            height: self.texture_size[1]
+
+    GridLayout:
+        cols:1
+        size_hint:(1, 0.5)
+        padding:50
+        Label:
+            text:"Input Command"
+            font_size:22
+            color:"#00FFCE"
+        
+        GridLayout:
+            cols:2
+            size_hint:(0.6, 0.3)
+            pos_hint:{"center_x": 0.5, "center_y": 0.5}
+            spacing:25
+
+            TextInput:
+                id:my_textinput
+                multiline:False
+                padding:(10, 10)
+                size_hint:(1.5, 0.2) 
+
+            Button:
+                text:"RUN"
+                bold:True
+                background_color:"#00FFCE"
+                size_hint:(0.5, 0.2)
+                on_release:
+                    root.runCmnd()
